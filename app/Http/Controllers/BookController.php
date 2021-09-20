@@ -98,10 +98,9 @@ class BookController extends Controller
         $book->publisher = $request->publisher;
         $book->release_date = $tmz;
         $book->save();
-
         
         return response()->json([
-            "status_code"=> 200 ,
+            "status_code"=> 201 ,
             "status"=> 'success',
             "data" => [
                 "name"=> $book->name,
@@ -109,14 +108,14 @@ class BookController extends Controller
                 "authors"=> [
                     $book->authors,
                 ],
-                "numberOfPages" => $book->number_of_pages,
+                "number_of_pages" => $book->number_of_pages,
                 "publisher" => $book->publisher,
                 "country" => $book->country,
-                "released" => $book->release_date,
+                "release_date" => $book->release_date,
 
             ]
 
-        ]);
+        ], 201);
     }
 
     /**
@@ -170,10 +169,10 @@ class BookController extends Controller
                 "authors"=> [
                     $newdata->authors,
                 ],
-                "numberOfPages" => $newdata->number_of_pages,
+                "number_of_pages" => $newdata->number_of_pages,
                 "publisher" => $newdata->publisher,
                 "country" => $newdata->country,
-                "released" => $newdata->release_date,
+                "release_date" => $newdata->release_date,
 
             ]
 
@@ -192,12 +191,12 @@ class BookController extends Controller
         $newdata = Book::find($id);
         $newdata->delete();
         return response()->json([
-            "status_code"=> 200 ,
+            "status_code"=> 204 ,
             "status"=> 'success',
             "message"=>" $newdata->name book was successfully deleted",
             "data"=>[],
            
-        ]);
+        ], 204);
     }
     public function showBook($id)
     {
@@ -211,10 +210,10 @@ class BookController extends Controller
                 "authors"=> [
                     $book->authors,
                 ],
-                "numberOfPages" => $book->number_of_pages,
+                "number_of_pages" => $book->number_of_pages,
                 "publisher" => $book->publisher,
                 "country" => $book->country,
-                "released" => $book->release_date,
+                "release_date" => $book->release_date,
 
             ]
 
