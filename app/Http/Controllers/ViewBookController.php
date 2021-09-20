@@ -67,7 +67,8 @@ class ViewBookController extends Controller
                 'release_date'=> 'required',
             ]);
         }catch(\Exception $e){
-            return redirect()->back('error',$e->getMessage())->withInput();
+            //return redirect()->back('error',$e->getMessage())->withInput();
+            dd('error',$e->getMessage());
         }
         
 

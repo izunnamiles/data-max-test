@@ -93,22 +93,6 @@ class EndpointTest extends TestCase
         $response->assertStatus(200);
         $responseBody = $response->decodeResponseJson();
         $this->assertNotEmpty($responseBody['data']);
-        // $response->assertExactJson([
-        //     'data' => [
-        //         'authors'=> [
-        //             $this->book->authors,
-        //         ],
-        //         'country' =>  $data['country'],
-        //         'isbn'=> $this->book->isbn,
-        //         'name'=> $data['name'],
-        //         'number_of_pages' => $this->book->number_of_pages,
-        //         'publisher' => $data['publisher'],
-        //         'release_date' => $this->book->release_date,
-        //     ],
-        //     'message'=> $data['name'].' was updated successfully',
-        //     'status'=>'success',
-        //     'status_code'=>200,
-        // ]);
         
         $this->assertDatabaseHas('books', [
             'name'=>$data['name'],
