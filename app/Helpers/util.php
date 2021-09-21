@@ -1,5 +1,5 @@
 <?php
-function sendError($error, $errorMessages = [], $code = 404)
+function sendError($error, $errorMessages = [], $code = 400)
     {
         $response = [
             'success' => false,

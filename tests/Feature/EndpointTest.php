@@ -25,7 +25,7 @@ class EndpointTest extends TestCase
         $this->book = factory(Book::class)->create();
 
     }
-    public function test_fo_get_to_fetch_book_with_name()
+    public function test_iron_and_fire_api_to_fetch_book_with_name()
     {
         $name="A Game of Thrones";
         $response = $this->json('get','/api/external-books?'.$name);
@@ -93,7 +93,7 @@ class EndpointTest extends TestCase
         $response->assertStatus(200);
         $responseBody = $response->decodeResponseJson();
         $this->assertNotEmpty($responseBody['data']);
-        
+
         $this->assertDatabaseHas('books', [
             'name'=>$data['name'],
            'country'=>$data['country'],
@@ -105,5 +105,25 @@ class EndpointTest extends TestCase
     {
         $response = $this->json('delete','/api/v1/book/'.$this->book->id);
         $response->assertStatus(204);
+        $this->assertDatabaseMissing('books', ['deleted_at' => null, 'id' => $this->book->id]);
+    }
+
+    public function test_for_validation_failure_response()
+    {
+        $str = Str::random(6);
+        $array = array('MacMillian','Marvel','Bantam Books');
+        
+        $books = [
+            'name' => $this->faker->word,
+            'isbn' => "ISBN-".$str,
+            'authors' => $this->faker->name,
+            'country' => $this->faker->country,
+            'number_of_pages' => $this->faker->randomDigit,
+            'publisher' => $this->faker->randomElement($array),
+            'release_date' => now(), //incorrect data format
+        ];
+
+        $response = $this->json('post','/api/v1/book', $books);
+        $response->assertStatus(400)->assertExactJson(["success"=> false,"message"=>"Validation Error.", "data"=>$response['data']]);
     }
 }
